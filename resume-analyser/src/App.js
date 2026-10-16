@@ -1,7 +1,7 @@
 
 import { GoogleLogin } from "@react-oauth/google";
 import { useState, useEffect, useRef, useCallback } from "react";
-import axios from "axios";
+
 import html2canvas from "html2canvas";
 
 // jsPDF pulls in a Node-only dependency tree in Jest, which can fail in the
@@ -1866,8 +1866,10 @@ const GrammarCheckPage = ({ t, onNavigate, onAnalyse, passedResult, setPassedGra
       const lines = correctedText.split("\n").filter(l => l.trim().length > 0);
       const children = lines.map((line, i) => {
         const trimmed = line.trim();
-        const isHeading = i === 0 || trimmed === trimmed.toUpperCase() && trimmed.length < 60;
+   const isHeading =
+  (i === 0) || ((trimmed === trimmed.toUpperCase()) && (trimmed.length < 60));
         if (isHeading && i === 0) {
+
           return new Paragraph({ text: trimmed, heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER });
         }
         if (isHeading && i > 0) {
@@ -3513,7 +3515,7 @@ const HistoryPage = ({ t, onNavigate, setAnalysisResult }) => {
       setError(null);
 
       try {
-        const res = await fetch("http://localhost:5000/api/resume/history", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/resume/history`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -3542,7 +3544,7 @@ const HistoryPage = ({ t, onNavigate, setAnalysisResult }) => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [token]);
 
   const formatDate = (value) => {
     if (!value) return "";

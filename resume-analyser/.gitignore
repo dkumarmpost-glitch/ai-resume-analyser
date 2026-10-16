@@ -35,3 +35,4 @@ yarn-error.log*
 **/node_modules/
 **/build/
 **/dist/
+'@ | Set-Content -Encoding utf8 .gitignore
